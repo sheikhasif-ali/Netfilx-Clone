@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic_Tac_Toe</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/htmx.org@1.9.11"></script>
+</head>
+<body>
+<div class=“menu-overlay”></div>
+<div class="menu">
+    <div class="hamburger-menu-wrapper">
+        <button class="hamburger-menu">
+            <span>toggle menu</span>
+        </button>
+    </div>
+    <div class="menu-list">
+        <a href="history.html">Game History</a><br>
+    </div>
+</div>
+<h1>TIC TAC TOE</h1>
+<form name="nameForm" action="" method="post">
+    <div class="labeldiv">
+        <label class="labelinp">Player 1</label>
+        <input type="text" id="pl1" name="pl1" class="input" required>
+    </div>
+    <div class="labeldiv">
+        <label class="labelinp">Player 2</label>
+        <input type="text" id="pl2" name="pl2" class="input" required><br><br>
+    </div>
+    <input id="startGame" type="button" class="Play" value="Play">
+
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="script.js"></script>
+<script>
+    const startGame = document.getElementById("startGame");
+
+    startGame.addEventListener("click", function () {
+        const data = {
+            pl1: document.getElementById("pl1").value.toLowerCase(),
+            pl2: document.getElementById("pl2").value.toLowerCase()
+        };
+        console.log(data.pl1);
+
+        if (data.pl1.length === 0 || data.pl2.length === 0) {
+            alert("Enter Player Names")
+        } else {
+            const jsonData = JSON.stringify(data); // Convert to JSON string
+            document.cookie = "gameData=" + jsonData + "; path=/"; // Set cookie
+            console.log(jsonData + "is working")
+            window.location.href = "game.html"; // Redirect to history.html
+
+        }
+
+    });
+
+</script>
+</body>

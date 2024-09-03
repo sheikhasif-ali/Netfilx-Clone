@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/htmx.org@1.9.11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+<div class=“menu-overlay”></div>
+<div class="menu">
+    <div class="hamburger-menu-wrapper">
+        <button class="hamburger-menu">
+            <span>toggle menu</span>
+        </button>
+    </div>
+    <div class="menu-list">
+        <a href="index.html">Homepage</a><br>
+        <a href="history.html">Game History</a><br>
+    </div>
+</div>
+<H1>CHECK HISTORY</H1>
+<div class="labeldiv">
+    <label class="labelinp"> Player History</label>
+    <input type="text" value="" name="playerHistory" class="input"
+           hx-get="http://localhost:8080/api/v1/games/getSingleHistory" hx-target="#print">
+</div>
+<div class="labeldiv">
+    <label class="labelinp">Number Of Times</label>
+    <input type="text" name="player" class="input" hx-get="http://localhost:8080/api/v1/games/getTotalWins"
+           hx-trigger="keyup[key=='Enter']" hx-target="#return" hx-swap="innerHTML">
+</div><br>
+
+<input  type="submit" name="allHistory" value="All Games History" class="Play"
+        hx-get="http://localhost:8080/api/v1/games/getAllHistory" hx-target="#print">
+
+<!--<label>Number Of Times</label><input type="text"  name="player" hx-get="http://localhost:8080/api/v1/games/getTotalWins"  hx-trigger="keyup[key=='Enter']" hx-target="#return" hx-swap="innerHTML">-->
+<input type="hidden" id="return"></input>
+<p id="print" class="card-container"></p>
+<p style="align-self: center" id="totalWins"></p>
+<input type="hidden" id="pl1" value="">
+<input type="hidden" id="pl2" value="">
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+<script>
+    const paragraphElement = document.getElementById("return");
+
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === "childList") {
+                console.log("Paragraph content has changed!");
+                // Call your function here
+                notificationme(document.getElementById("return").textContent);
+            }
+        });
+    });
+
+    observer.observe(paragraphElement, {childList: true});
+
+
+
+    function notificationme(msg) {
+
+        toastr.options = {
+            "closeButton": true,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-bottom-center",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "700",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+        console.log("notification me is working")
+        toastr.success(msg);
+    }
+
+
+</script>
+</body>
+</html>
